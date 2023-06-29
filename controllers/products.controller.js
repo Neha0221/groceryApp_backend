@@ -44,7 +44,8 @@ exports.findAll=(req,res,next)=>{
         productName:req.query.productName,
         categoryId:req.query.categoryId,
         pageSize:req.query.pageSize,
-        page:req.query.page
+        page:req.query.page,
+        sort:req.query.sort,
     };
 
     productServices.getProducts(model,(error,results)=>{
