@@ -1,6 +1,7 @@
 const { product } = require("../models/product.model");
 const { category } = require("../models/category.model");
 const { MONGO_DB_CONFIG } = require("../config/app.config");
+const { relatedProduct } = require("../models/related-products.model");
 
 async function createProduct(params, callback) {
     if (!params.productName) {
@@ -56,6 +57,7 @@ async function getProducts(params, callback) {
         .find(condition, "productId productName productShortDescription productPrice productSalePrice productImage productSKU productType stockStatus createdAt updatedAt")
         .sort(params.sort)
         .populate("category", "categoryName categoryImage")
+        .populate("relatedProducts","relatedProduct")
         .limit(perPage)
         .skip(perPage * page)
         .then((response) => {

@@ -1,5 +1,5 @@
-const categoriesService = require("../services/categories.service");
-const upload = require("../middleware/category.upload");
+const sliderService = require("../services/sliders.service");
+const upload = require("../middleware/slider.upload");
 
 exports.create = (req, res, next) => {
     upload(req, res, function (err) {
@@ -11,15 +11,24 @@ exports.create = (req, res, next) => {
                 req.file != undefined ? req.file.path.replace(/\\/g, "/") : "";
 
             var model = {
-                categoryName: req.body.categoryName,
-                categoryDescription: req.body.categoryDescription,
-                categoryImage: path != "" ? "/" + path : "",
+                sliderName: req.body.sliderName,
+                sliderDescription: req.body.sliderDescription,
+                sliderImage: path != "" ? "/" + path : "",
             };
-            categoriesService.createCategory(model, (error, results) => {
+            console.log('model :'+model);
+            console.log('model_sliderName :'+model.sliderName);
+            console.log('model_sliderDescription :'+model.sliderDescription);
+            console.log('model_sliderImage:'+model. sliderImage);
+
+            sliderService.createSlider(model, (error, results) => {
                 if (error) {
+                    console.log("error : "+error);
                     return next(error);
+                    
                 }
+                
                 else {
+                    console.log("result : "+results);
                     return res.status(200).send({
                         message: "Success",
                         data: results,
@@ -27,17 +36,18 @@ exports.create = (req, res, next) => {
                 }
 
             });
+
         }
     });
 };
 
 exports.findAll = (req, res, next) => {
     var model = {
-        categoryName: req.query.categoryName,
+        sliderName: req.query.sliderName,
         pageSize: req.query.pageSize,
         page: req.query.page,
     };
-    categoriesService.getCategories(model, (error, results) => {
+    sliderService.getSliders(model, (error, results) => {
         if (error) {
             return next(error);
         }
@@ -51,12 +61,11 @@ exports.findAll = (req, res, next) => {
     });
 
 };
-
 exports.findOne = (req, res, next) => {
     var model = {
-        categoryId: req.params.id,
+        sliderId: req.query.sliderId,
     };
-    categoriesService.getCategoryById(model, (error, results) => {
+    categoriesService.getSliderById(model, (error, results) => {
         if (error) {
             return next(error);
         }
@@ -70,7 +79,6 @@ exports.findOne = (req, res, next) => {
     });
 
 };
-
 
 exports.update = (req, res, next) => {
     upload(req, res, function (err) {
@@ -82,11 +90,12 @@ exports.update = (req, res, next) => {
                 req.file != undefined ? req.file.path.replace(/\\/g, "/") : "";
 
             var model = {
-                categoryId: req.params.id,
-                categoryDescription: req.body.categoryDescription,
-                categoryImage: path != "" ? "/" + path : "",
+                sliderId: req.params.id,
+                sliderName:req.body.sliderName,
+                sliderDescription: req.body.sliderDescription,
+                sliderImage: path != "" ? "/" + path : "",
             };
-            categoriesService.updateCategory(model, (error, results) => {
+            sliderService.updateSlider(model, (error, results) => {
                 if (error) {
                     return next(error);
                 }
@@ -104,9 +113,9 @@ exports.update = (req, res, next) => {
 
 exports.delete = (req, res, next) => {
     var model = {
-        categoryId: req.params.id,
+        sliderId: req.params.id,
     };
-    categoriesService.deleteCategory(model, (error, results) => {
+    sliderService.deleteSlider(model, (error, results) => {
         if (error) {
             return next(error);
         }

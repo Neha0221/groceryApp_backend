@@ -2,6 +2,8 @@ const productServices=require("../services/products.service");
 const upload=require("../middleware/product.upload");
 
 exports.create=(req,res,next) =>{
+    console.log("req.body :"+req.body.body);
+    console.log("req.body :"+req.body);
     upload(req,res,function(err){
         if(err){
             next(err);
@@ -41,6 +43,7 @@ exports.create=(req,res,next) =>{
 
 exports.findAll=(req,res,next)=>{
     var model={
+        productIds:req.query.productIds,
         productName:req.query.productName,
         categoryId:req.query.categoryId,
         pageSize:req.query.pageSize,
@@ -62,9 +65,11 @@ exports.findAll=(req,res,next)=>{
 }
 
 exports.findOne=(req,res,next)=>{
+    console.log("result : "+req.params.id);
     var model={
-        productId:req.query.params.id,
+        productId:req.params.id,
     };
+    console.log("model : "+model);
 
     productServices.getProductById(model,(error,results)=>{
         if(error){

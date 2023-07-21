@@ -25,6 +25,7 @@ const { response } = require("express");
  }
 
  async function register(params,callback){
+    console.log(`register:${JSON.stringify(params)}`);
     if(params.email===undefined){
         return callback({
             message:"Email Required!"
@@ -34,7 +35,7 @@ const { response } = require("express");
     let isUserExist=await user.findOne({email:params.email});
     if(isUserExist){
         return callback({
-        message:"Email already Required!"
+        message:"Email already Register!"
         });
     }
     const salt=bcrypt.genSaltSync(10);
@@ -46,6 +47,7 @@ const { response } = require("express");
             return callback(null,response);
         })
     .catch((error)=>{
+        console.log('err2:'+error);
         return callback(error);
     });
  }
