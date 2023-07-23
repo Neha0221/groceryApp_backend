@@ -3,6 +3,8 @@ const productController = require("../controllers/products.controller");
 const usersController = require("../controllers/users.controller");
 const sliderController = require("../controllers/slider.controller");
 const relatedProductController = require("../controllers/related-product.controller");
+const cartController=require("../controllers/cart.controller");
+const {authenticateToken}=require("../middleware/auth");
 const express = require("express");
 const router = express.Router();
 
@@ -29,5 +31,9 @@ router.post("/login",usersController.login);
 
 router.post("/relatedProduct",relatedProductController.create);
 router.delete("/relatedProduct/:id",relatedProductController.delete);  
+
+router.post("/cart",[authenticateToken],cartController.create);
+router.get("/cart",[authenticateToken],cartController.findAll);
+router.delete("/cart",[authenticateToken],cartController.delete);
 
 module.exports = router;
