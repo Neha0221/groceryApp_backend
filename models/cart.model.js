@@ -14,27 +14,29 @@ const cart=mongoose.model(
                 ref:"Product",
                 required:true,
             },
-            qty:{
+            qty:{  
                 type:Number,
                 required:true
             }
         }
     ]
    },{
-      toJSON:{
+    toJSON:{
         transform:function(model,ret){
-            ret.cardId=ret._id.toString()
-            delete ret.__id;
-            delete ret._v;
+            ret.cartId=ret._id.toString();
+            delete ret._id;
+            delete ret.__v;
         }
-      }
-   },{
-     timestamps:true
-   }
-   
-   )
+    }
+
+
+},{
+    timestamps:true,
+})
+
 );
 
 module.exports={
     cart
 }
+

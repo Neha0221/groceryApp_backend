@@ -1,4 +1,4 @@
-const { response } = require("express");
+// const { response } = require("express");
 const { cart } = require("../models/cart.model");
 var async = require("async");
 
@@ -38,7 +38,7 @@ async function addCart(params,callback){
                 async.eachSeries(params.products,function(product,asyncDone){
                     let itemIndex=cartDB.products.findIndex(p=>p.product==product.product);
 
-                    if(itemIndex==-1){
+                    if(itemIndex===-1){
                         cartDB.products.push({
                             product:product.product,
                             qty:product.qty
@@ -59,13 +59,24 @@ async function addCart(params,callback){
 }
 
 async function getCart(params,callback){
+    console.log("params : "+params);
+    // console.log(JSON.stringify(params));
+    // params.forEach((item) => {
+    //     console.log(item);
+    //     console.log("paramsArray : "+Object.keys(item));
+    //   });
+        
+    
+    // params.
+    console.log("paramsId : "+params.userId);
+    console.log("cart : "+cart);
     cart.findOne({userId:params.userId})
     .populate({
         path:"products",
         populate:{
             path:'product',
             model:'Product',
-            select:'productName productPrice ,productSalePrice productImage',
+            select:'productName productPrice, productSalePrice productImage',
             populate:{
                 path:'category',
                 model:'Category',
@@ -75,7 +86,8 @@ async function getCart(params,callback){
         }
     })
     .then((response)=>{
-        return callback(null,response);
+        console.log("response : "+response);
+        return callback(null , response);
     })
     .catch((error)=>{
         return callback(error);

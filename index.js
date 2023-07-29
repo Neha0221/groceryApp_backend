@@ -5,6 +5,8 @@ const mongoose =require("mongoose");
 const {MONGO_DB_CONFIG}=require("./config/app.config");
 const errors=require("./middleware/error.js");
 const swaggerUi=require("swagger-ui-express"),swaggerDocument=require("./swagger.json");
+
+console.log(mongoose.version);
 // const swaggerUij=require("swagger-ui-express"),swaggerDocumentj=require("./swaggerProduct.json");
 // const category=require("./controllers/categories.controller.js");
 // const product=require("./controllers/products.controller.js");

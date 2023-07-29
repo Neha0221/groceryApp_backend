@@ -4,9 +4,9 @@ const TOKEN_KEY="RANDOM_KEY";
 
 function authenticateToken(req,res,next){
     const authHeader=req.headers['authorization'];
-    console.log("au:"+authHeader);
+    // console.log("au:"+authHeader);
     const token=authHeader && authHeader.split(' ')[1];
-    console.log("ans:"+token);
+    // console.log("ans:"+token);
 
     // if(token==null) return res.sendStatus(401);
     if(!token){
